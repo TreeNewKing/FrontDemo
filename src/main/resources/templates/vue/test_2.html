@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+<!--  TODO  添加全局的demo表头-->
+    <script>
+        var elementsByClassName = document.getElementsByClassName("demo");
+        for (let i = 0; i < elementsByClassName.length; i++) {
+
+        }
+    </script>
+    <style>
+        div.demo{
+            border: 1px green solid;
+            margin: 20px;
+            padding: 20px;
+            width: 60%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="demo" title="不适用模板进行事件监听值同步">
+<div id="demo1"></div>
+<input type="text" id="demo2">
+<input type="button" onclick="changeA()" value="改变A的值">
+<span id="app">{{msg}}</span>
+</div>
+<script>
+  var data={
+      a:1,
+      msg: 'hello'
+  }
+  var vm=new Vue({
+    el: '#app',
+    data : data,
+  })
+  var vm1=new Vue({
+      el: '#demo1',
+      data: {
+          a:data
+      }
+  })
+  document.getElementById("demo1").innerText='a='+data.a
+  /*
+  * 直接使用dom模式操作
+  * */
+  function changeA(){
+    data.a=document.getElementById('demo2').value;
+   document.getElementById('demo1').innerHTML='a='+data.a
+    data.msg='aa';
+  }
+</script>
+
+<div class="demo" title="使用模板进行事件监听同步">
+<span id="demo3" >a={{a}}</span></br>
+    <input id="demo4" type="text">
+    <input type="button" value="改变A的值" onclick="changeA1()">
+</div>
+<script>
+
+    var vm=new Vue({
+        el: '#demo3',
+        data: data
+    })
+function changeA1(){
+     data.a=document.getElementById('demo4').value;
+}
+</script>
+<div id="demo5" class="demo">
+<span>{{h}}</span></br>
+    <span v-html="h" title="动态渲染出来的html,容易导致脚本攻击"></span>
+</div>
+<script>
+    var data={
+        h: '<span style="color: red">123</span>'
+    }
+    var vm=new Vue({
+        el:'#demo5',
+        data:data
+    })
+</script>
+<!--fixme 必须在js用vue进行了绑定。标签中的v-if等标签才能起作用-->
+<div  id='demo6'class="demo">
+    <p v-if="statusA">你看见我了</p>
+    <p v-if="statusB">你看不见我了</p>
+</div>
+<script>
+    var data={
+        statusA:true,
+        statusB:false
+    }
+    var vm=new Vue({
+        el:'#demo6',
+        data:data
+    })
+</script>
+<div class="demo" id="demo7" title="双向绑定+监听器">
+    输入<input type="text" v-model="input">
+    输出<input type="text" v-model="output">
+</div>
+<script>
+    var data={
+        input:'',
+        output:''
+    }
+    var vm=new Vue({
+        el:'#demo7',
+        data:data,
+        watch:{
+            input: function (){
+                console.log('hihi')
+                data.output=data.input
+            }
+        }
+    })
+</script>
+<div class="demo" >
+    <p id="demo8" v-bind:style="style" title="使用vue进行样式绑定">hello</p>
+</div>
+<script>
+    var data={
+        style:{
+            color: 'red'
+        }
+    }
+    var vm=new Vue({
+        el:'#demo8',
+        data:data
+    })
+</script>
+</body>
+
+</html>

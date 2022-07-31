@@ -1,0 +1,77 @@
+<!
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+    <style>
+        div.demo{
+            border: 1px green solid;
+            margin: 20px;
+            padding: 20px;
+            width: 60%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="demo" id="demo1" title="通过template标签生成的标签不会在代码中被显示出来,可以配合v-if使用对多个元素的可见性进行管理" >
+    <template  v-if="status">
+        <p>daydayUp</p>
+        <p>daydaydown</p>
+    </template>
+    <p v-if="status">test</p>
+</div>
+<!--fixme 错误的把布尔类型写成了字符串'false'-->
+    <script>
+        var data={
+            status:true
+
+        }
+        var vm=new Vue({
+            el:'#demo1',
+            data:data
+        })
+    </script>
+<div  class="demo">
+<!--    todo 绑定的时候，无法把v-for直接写在绑定vue的位置而需要写在子结构里面去不然渲染不出来-->
+<div id="demo2" title="绑定的时候，无法把v-for直接写在绑定vue的位置而需要写在子结构里面去不然渲染不出来">
+    <p v-for="(item,index) in items"> {{par}}_{{index}}_{{item}}</p>
+</div>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#demo2',
+        data:{
+            par:'happyDay',
+            items: [
+                'hipiDay1','hipiDay2'
+            ]
+        }
+    })
+</script>
+<div class="demo" id="demo3">
+<!--    todo 需要注意计算属性是无法带（）放入参数的-->
+    <p v-for="i in eve">{{i}}</p>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#demo3',
+        data:{
+            items:[1,2,3,4,5,6,7]
+        },
+        computed:{
+            eve:function (){
+              return   this.items.filter(function (num){
+                    return num%2===0
+                })
+            }
+        }
+    })
+</script>
+</body>
+
+</html>
