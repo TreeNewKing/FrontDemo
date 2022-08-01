@@ -72,6 +72,60 @@
         }
     })
 </script>
+<div class="demo" id="demo4" title="vue在这的自增语法和后端略有不同">
+    点击次数为{{counter}}
+<!-- todo   vue对事件的封装需要单独的看一下-->
+    <input type="button" value="点击" v-on:click="counter++">
+    <input type="button" value="阻止单击事件" v-on:click.once="counter++">
+</div>
+<script>
+    var vm=new Vue({
+        el:"#demo4",
+        data:{
+            counter: 0
+        }
+    })
+</script>
+<div class="demo" id="demo5" title="在vue对象内部调用data的值先用this获取到vue对象">
+    点击次数为{{counter}}
+    <input type="button" value="点击" v-on:click="greet">
+</div>
+<script>
+    var vm=new Vue({
+        el:'#demo5',
+        data:{
+            counter:0
+        },
+        methods: {
+            greet:function (event){
+                alert(event.toString())
+                /*fixme 这个event没看明白*/
+                if (event){
+                    this.counter++
+                    console.log(this.counter)
+                }
+
+            }
+            }
+        }
+    )
+</script>
+<div class="demo" id="demo6" titile="双向绑定的使用在这儿就算不绑定name属性。指定v-model也可以将几个radio归为同一类">
+<!--   label标签使用的时候需要加上for属性进行指定-->
+    <label for="c1">选择一</label>
+    <input id="c1" type="radio" name="c1" value="choice1" v-model="radioValue"></br>
+    <label for="c2">选择二</label>
+    <input id="c2" type="radio" name="c1" value="choice2" v-model="radioValue">
+    <p>{{radioValue}}</p>
+</div>
+<script>
+    var vm=new Vue({
+        el:'#demo6',
+        data:{
+            radioValue:''
+        }
+    })
+</script>
 </body>
 
 </html>
